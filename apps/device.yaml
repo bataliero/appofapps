@@ -1,0 +1,29 @@
+
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: test123
+    # repoURL: https://prometheus-community.github.io/helm-charts
+    repoURL: https://raw.githubusercontent.com/bataliero/helm-charts/gh-pages/
+    targetRevision: "1689266413"
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      # syncOptions:
+      # - ServerSideApply=true
+      # - CreateNamespace=true
+  # ignoreDifferences:
+  # - group: monitoring.coreos.com
+  #   kind: ServiceMonitor
+  #   jqPathExpressions:
+  #   - .spec.endpoints[]?.relabelings[]?.action
